@@ -68,11 +68,11 @@ function handleLastPage(e) {
 }
 
 function getAllDataFromServer () {  
-  UI.tableWrapper.remove();
-  UI.paginationWrapper.remove();
-  UI.modal.remove();
-  UI.searchParamsWrapper.remove();
-  UI.buttonsWrapper.remove();
+    UI.tableWrapper && UI.tableWrapper.remove();
+    UI.paginationWrapper && UI.paginationWrapper.remove();
+    UI.modal && UI.modal.remove();
+    UI.searchParamsWrapper && UI.searchParamsWrapper.remove();
+    UI.buttonsWrapper && UI.buttonsWrapper.remove();
 
   getAllRecords().then(data => {
     localStorage.setItem('logbook', JSON.stringify(data));
