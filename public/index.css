@@ -151,7 +151,7 @@ body {
 #logbook-table th, #logbook-table td {
   min-width: 60px;
   min-height: 30px;
-  font-size: 11px;
+  font-size: 12px;
 }
 #logbook-table tr, #logbook-table td {
   border: 1px inset var(--primary-text-color);
@@ -181,6 +181,9 @@ body {
 .td-route {
   min-width: 150px !important;
 }
+.td-date {
+  min-width: 65px !important;
+}
 tfoot #row-subtotal td {
   background-color: var(--subtotal-color);
 }
@@ -189,7 +192,7 @@ tfoot #row-total td {
 }
 tfoot #row-subtotal td, tfoot #row-total td {
   font-weight: bold;
-  font-size: 11px;
+  font-size: 12px;
 }
 #pagination-wrapper {
   display: none;
