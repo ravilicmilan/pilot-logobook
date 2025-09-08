@@ -185,6 +185,9 @@ function handleFindButtonClick() {
     if (searchValue && searchValue !== null && searchValue !== '') {
       if (operator === '=') {
         obj[searchKey] = searchValue; // WHERE column LIKE %somestring%
+      } else if (operator === '<>') {
+        const searchValArr = searchValue.split(/[,;]/).map(item => item.trim());
+        obj[searchKey] = { operator: 'between', value: searchValArr };
       } else {
         obj[searchKey] = { operator, value: searchValue };
       }

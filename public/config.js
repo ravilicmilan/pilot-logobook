@@ -93,5 +93,5 @@ const typeOfFlightEnum = [
 ];
 
 const searchOperators = [
-  '=', '<', '>', '<=', '>='
+  '=', '<', '>', '<=', '>=', '<>'
 ];
