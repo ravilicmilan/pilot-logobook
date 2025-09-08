@@ -104,7 +104,6 @@ function handleFormSubmit (e) {
 }
 
 function handleNewEntryButtonClick(e) {
-  console.log('New entry click !!!!');
   APP.editMode = false;
   tableColumnKeys.forEach(obj => {
     const arr = Object.entries(obj);
@@ -188,11 +187,14 @@ function hideLoginUI () {
   UI.loginForm.style.display = 'none';
 }
 
-function handleDestiantionTimeBlur (e) {
+function handleDestiantionDepartureTimeBlur (e) {
   const formData = new FormData(UI.logbookForm);
   const data = Object.fromEntries(formData);
   const departureTime = data.departure_time;
   const destinationTime = data.destination_time;
-  const timeFotTotal = timeDiff(departureTime, destinationTime);
-  _dom.id('input-total_flight_time').value = timeFotTotal;
+  
+  if (departureTime && destinationTime) {
+    const timeFotTotal = timeDiff(departureTime, destinationTime);
+    _dom.id('input-total_flight_time').value = timeFotTotal;    
+  }
 }

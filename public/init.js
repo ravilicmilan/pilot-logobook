@@ -19,10 +19,13 @@ function buildInitialUI() {
   createLoader();
 }
 
-function createLoader () {
+function createLoader() {
   UI.loader = _dom.create({ name: 'div', id: 'loader-overlay' }, UI.main);
   const spinner = _dom.create({ name: 'div', id: 'spinner' }, UI.loader);
-  const loaderText = _dom.create({ name: 'div', id: 'loader-text', innerHTML: 'Please Wait...' }, UI.loader);
+  const loaderText = _dom.create(
+    { name: 'div', id: 'loader-text', innerHTML: 'Please Wait...' },
+    UI.loader
+  );
 }
 
 function createActionButtons() {
@@ -399,8 +402,8 @@ function buildModal() {
         { name: key, input: true, type: 'text', id: `input-${key}`, value: '' },
         row
       );
-      if (key === 'destination_time') {
-        input.addEventListener('blur', handleDestiantionTimeBlur);
+      if (key === 'destination_time' || key === 'departure_time') {
+        input.addEventListener('blur', handleDestiantionDepartureTimeBlur);
       }
     }
   }
