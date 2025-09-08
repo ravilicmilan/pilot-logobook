@@ -16,6 +16,13 @@ function buildInitialUI() {
     },
     UI.main
   );
+  createLoader();
+}
+
+function createLoader () {
+  UI.loader = _dom.create({ name: 'div', id: 'loader-overlay' }, UI.main);
+  const spinner = _dom.create({ name: 'div', id: 'spinner' }, UI.loader);
+  const loaderText = _dom.create({ name: 'div', id: 'loader-text', innerHTML: 'Please Wait...' }, UI.loader);
 }
 
 function createActionButtons() {

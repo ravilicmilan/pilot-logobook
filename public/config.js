@@ -13,6 +13,7 @@ const APP = {
 };
 const UI = {
   main: document.getElementById('main'),
+  loader: null,
   searchParamsWrapper: null,
   buttonsWrapper: null,
   toggleSearchBtn: null,

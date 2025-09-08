@@ -15,12 +15,15 @@ function api(url, methodName, data) {
   }
 
   return new Promise((resolve, reject) => {
+    toggleLoader();
     fetch(url, config)
       .then((res) => res.json())
       .then((data) => {
+        toggleLoader();
         resolve(data);
       })
       .catch((err) => {
+        toggleLoader();
         reject(err);
       });
   });

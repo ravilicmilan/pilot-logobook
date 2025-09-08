@@ -3,6 +3,10 @@ function handleCloseForm (e) {
   toggleModal();
 }
 
+function toggleLoader () {
+  _dom.toggleClass(UI.loader, 'show');
+}
+
 function handlePostNewEntry (data) {
   // console.log('UBACI NOV REKORD');
   insertNewRecord(data).then(res => {
@@ -170,7 +174,7 @@ function handleFindButtonClick () {
 function handleLoginButtonClick (e) {
   const formData = new FormData(UI.loginForm);
   const data = Object.fromEntries(formData);
-  console.log('STA JE DATA LOGIN', data);
+
   loginUser(data).then(res => {
     APP.loggedIn = true;
     getInitalData();
