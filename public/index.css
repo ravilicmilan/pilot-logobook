@@ -83,14 +83,21 @@ body {
 #search-params-wrapper {
   display: none;
   width: 100%;
-  height: 50px;
+  height: auto;
   gap: 20px;
   background-color: var(--secondary-background);
   border-top: 1px solid var(--primary-text-color);
 }
+.search-row-params {
+  border-bottom: 1px solid var(--primary-text-color);
+  padding-bottom: 10px;
+}
 #search-combo {
   width: 200px;
   font-size: 15px;
+}
+.search-input {
+  width: 150px;
 }
 .flex-center {
   justify-content: center;
@@ -103,6 +110,9 @@ body {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+.flex-gap-20 {
+  gap: 20px;
 }
 .btn {
   font-size: 14px;

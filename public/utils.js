@@ -92,11 +92,14 @@ function checkAuth() {
   if (document.cookie.includes('jwt')) {
     const jwt = getToken();
     if (jwt && jwt.length > 0) {
-      APP.loggedIn = true;
+      // APP.loggedIn = true;
+      setState({ loggedIn: true });
     } else {
-      APP.loggedIn = false;
+      // APP.loggedIn = false;
+      setState({ loggedIn: false });
     }
   } else {
-    APP.loggedIn = false;
+    // APP.loggedIn = false;
+    setState({ loggedIn: false });
   }
 }

@@ -42,9 +42,24 @@ const _dom = {
           }
 
           if (obj.type === 'combobox' && obj.options) {
+            if (obj.makeFirstOptionNull) {
+              const option = _dom.create({ name: 'option', selected: true, disabled: true, innerHTML: 'Select Option' }, el);
+            }
+
             obj.options.forEach(o => {
-              const option = _dom.create({ name: 'option', value: o, innerHTML: o }, el);
+              if (typeof o === 'object') {
+                const [key, value] = Object.entries(o)[0];
+                const option = _dom.create({ name: 'option', value: key, innerHTML: value }, el);
+              } else {
+                const option = _dom.create({ name: 'option', value: o, innerHTML: o }, el);
+              }
             });
+
+            
+
+            if (obj.value) {
+              el.value = obj.value;
+            }
           }
 
           if ((obj.type === 'radio-group' || obj.type === 'incrementor' || obj.type === 'border-group') && obj.options) {

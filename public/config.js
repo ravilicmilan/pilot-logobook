@@ -2,8 +2,10 @@ const APP = {
   loggedIn: false,
   logbookData: [],
   dataForPage: [],
+  searchParams: [],
   searchMode: false,
   currentPage: 0,
+  currentId: null,
   maxPage: 0,
   firstPageBtn: true,
   prevPageBtn: true,
@@ -15,6 +17,7 @@ const UI = {
   main: document.getElementById('main'),
   loader: null,
   searchParamsWrapper: null,
+  searchUpperRow: null,
   buttonsWrapper: null,
   toggleSearchBtn: null,
   searchComobo: null,
@@ -89,3 +92,6 @@ const typeOfFlightEnum = [
   'Cross Country IFR'
 ];
 
+const searchOperators = [
+  '=', '<', '>', '<=', '>='
+];

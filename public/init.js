@@ -71,13 +71,37 @@ function createSearchParams() {
     {
       name: 'div',
       id: 'search-params-wrapper',
-      className: ['flex-center', 'flex-row'],
+      className: ['flex-center', 'flex-column'],
     },
     UI.main
   );
-  UI.searchComobo = _dom.create(
-    { type: 'combobox', id: 'search-combo', options: typeOfFlightEnum },
+
+  UI.searchUpperRow = _dom.create(
+    {
+      name: 'div',
+      className: ['flex-center', 'flex-column', 'flex-gap-20'],
+    },
     UI.searchParamsWrapper
+  );
+
+  const bottomRow = _dom.create(
+    {
+      name: 'div',
+      className: ['flex-center', 'flex-row', 'flex-gap-20'],
+    },
+    UI.searchParamsWrapper
+  );
+
+  addNewRowIntoSearchParams(0);
+  addNewSearchParam({ searchKey: 'date', operator: '=', searchValue: null });
+  const addNewSearchParamBtn = _dom.create(
+    {
+      name: 'div',
+      innerHTML: '+',
+      id: `add-new-search-param`,
+      className: ['btn', 'primary-btn'],
+    },
+    bottomRow
   );
   const findBtn = _dom.create(
     {
@@ -86,10 +110,72 @@ function createSearchParams() {
       id: 'find-btn',
       className: ['btn', 'primary-btn'],
     },
-    UI.searchParamsWrapper
+    bottomRow
   );
 
+  addNewSearchParamBtn.addEventListener('click', handleAddNewSearchParamClick);
   findBtn.addEventListener('click', handleFindButtonClick);
+}
+
+function addNewRowIntoSearchParams(id, searchKey = null) {
+  const row = _dom.create(
+    {
+      name: 'div',
+      id: `search-row-params-${id}`,
+      className: [
+        'flex-center',
+        'flex-row',
+        'flex-gap-20',
+        'search-row-params',
+      ],
+    },
+    UI.searchUpperRow
+  );
+  const removeSearchParamBtn = _dom.create(
+    {
+      name: 'div',
+      innerHTML: '-',
+      id: `remove-search-param-${id}`,
+      className: ['btn', 'close-btn'],
+    },
+    row
+  );
+  const labelCombo = _dom.create(
+    {
+      type: 'combobox',
+      className: 'search-label-combo',
+      id: `search-label-combo-${id}`,
+      options: tableColumnKeys,
+      value: searchKey || 'date'
+    },
+    row
+  );
+  const inputOperator = _dom.create(
+    {
+      id: `search-operator-${id}`,
+      type: 'combobox',
+      className: 'search-operator',
+      options: searchOperators,
+    },
+    row
+  );
+  const inputValue = _dom.create(
+    {
+      id: `search-input-${id}`,
+      type: 'input',
+      input: true,
+      className: 'search-input',
+    },
+    row
+  );
+
+  inputOperator.addEventListener('change', handleSearchParamOperatorChange);
+  inputValue.addEventListener('input', handleSearchParamValueChange);
+  labelCombo.addEventListener('change', handleSearchLabelComboChange);
+  removeSearchParamBtn.addEventListener(
+    'click',
+    handleRemoveSearchParamButtonClick
+  );
 }
 
 function createTable() {
