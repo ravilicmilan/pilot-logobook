@@ -3,7 +3,10 @@
   #header,
   #button-wrapper,
   #pagination-wrapper,
-  #search-params-wrapper {
+  #search-params-wrapper,
+  .td-type_of_flight,
+  .td-page_num,
+  .td-route {
     display: none !important;
   }
 
