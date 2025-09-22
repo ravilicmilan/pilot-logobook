@@ -25,4 +25,8 @@
   #row-total td:nth-child(1) {
     display: none;
   }
+  .td-aircraft_model {
+    /*min-width: 80px !important;*/
+    font-size: 10px !important;
+  }
 }
