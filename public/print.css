@@ -8,10 +8,10 @@
   }
 
   body {
-    overflow-x: none;
+    overflow-x: hidden;
   }
   #table-wrapper {
-    overflow-x: none;
+    overflow-x: hidden;
   }
   #logbook-table th {
     color: #333;
@@ -20,6 +20,9 @@
 
   #logbook-table th:nth-child(1),
   #logbook-table .td-action:nth-child(1) {
+    display: none;
+  }
+  #row-total td:nth-child(1) {
     display: none;
   }
 }
