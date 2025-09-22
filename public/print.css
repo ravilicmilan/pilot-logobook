@@ -1,0 +1,25 @@
+@media print {
+  /* All your print styles go here */
+  #header,
+  #button-wrapper,
+  #pagination-wrapper,
+  #search-params-wrapper {
+    display: none !important;
+  }
+
+  body {
+    overflow-x: none;
+  }
+  #table-wrapper {
+    overflow-x: none;
+  }
+  #logbook-table th {
+    color: #333;
+    border: 1px solid #333;
+  }
+
+  #logbook-table th:nth-child(1),
+  #logbook-table .td-action:nth-child(1) {
+    display: none;
+  }
+}
