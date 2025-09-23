@@ -180,13 +180,15 @@ function handleFindButtonClick() {
   // APP.searchMode = true;
   setState({ searchMode: true });
   const obj = {};
-  APP.searchParams.forEach(param => {
+  APP.searchParams.forEach((param) => {
     const { searchKey, operator, searchValue } = param;
     if (searchValue && searchValue !== null && searchValue !== '') {
       if (operator === '=') {
         obj[searchKey] = searchValue; // WHERE column LIKE %somestring%
       } else if (operator === '<>') {
-        const searchValArr = searchValue.split(/[,;]/).map(item => item.trim());
+        const searchValArr = searchValue
+          .split(/[,;]/)
+          .map((item) => item.trim());
         obj[searchKey] = { operator: 'between', value: searchValArr };
       } else {
         obj[searchKey] = { operator, value: searchValue };
@@ -238,10 +240,12 @@ function handleSearchLabelComboChange(e) {
   const id = this.id.split('search-label-combo-')[1];
   if (this.value === 'type_of_flight') {
     changeInputForComboBox(id);
-    updateSearchParams(id, { searchKey: this.value });
   } else {
-    updateSearchParams(id, { searchKey: this.value });
+    console.log('JEL UDJE??');
+    changeComboBoxForInput(id);
   }
+
+  updateSearchParams(id, { searchKey: this.value });
 }
 
 function handleAddNewSearchParamClick(e) {
@@ -264,11 +268,34 @@ function changeInputForComboBox(id) {
       id: `search-combo-${id}`,
       options: typeOfFlightEnum,
       makeFirstOptionNull: true,
-      className: 'search-input'
+      className: 'search-input',
     },
     row
   );
   combo.addEventListener('change', handleSearchParamValueChange);
+}
+
+function changeComboBoxForInput(id) {
+  const elId = `search-row-params-${id}`;
+  const comboExists = _dom.id(`search-combo-${id}`);
+  if (!comboExists) {
+    return false;
+  }
+
+  const row = _dom.id(elId);
+  const comboBox = _dom.id(`search-combo-${id}`);
+  row.removeChild(comboBox);
+  const input = _dom.create(
+    {
+      id: `search-input-${id}`,
+      type: 'input',
+      input: true,
+      className: 'search-input',
+    },
+    row
+  );
+
+  input.addEventListener('input', handleSearchParamValueChange);
 }
 
 function handleRemoveSearchParamButtonClick(e) {
