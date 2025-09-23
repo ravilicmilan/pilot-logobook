@@ -241,7 +241,6 @@ function handleSearchLabelComboChange(e) {
   if (this.value === 'type_of_flight') {
     changeInputForComboBox(id);
   } else {
-    console.log('JEL UDJE??');
     changeComboBoxForInput(id);
   }
 
