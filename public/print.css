@@ -25,7 +25,8 @@
   #logbook-table .td-action:nth-child(1) {
     display: none;
   }
-  #row-total td:nth-child(1) {
+  #row-total td:nth-child(1),
+  #row-subtotal td:nth-child(1) {
     display: none;
   }
   .td-aircraft_model {
