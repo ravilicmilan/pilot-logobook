@@ -92,8 +92,6 @@ function createSearchParams() {
     UI.searchParamsWrapper
   );
 
-  addNewRowIntoSearchParams(0);
-  addNewSearchParam({ searchKey: 'date', operator: '=', searchValue: null });
   const addNewSearchParamBtn = _dom.create(
     {
       name: 'div',
@@ -117,7 +115,8 @@ function createSearchParams() {
   findBtn.addEventListener('click', handleFindButtonClick);
 }
 
-function addNewRowIntoSearchParams(id, searchKey = null) {
+function addNewRowIntoSearchParams(id, searchKey = 'date') {
+  // console.log('STA JE ID SEARHC KEY????', id, searchKey);
   const row = _dom.create(
     {
       name: 'div',
@@ -146,7 +145,7 @@ function addNewRowIntoSearchParams(id, searchKey = null) {
       className: 'search-label-combo',
       id: `search-label-combo-${id}`,
       options: tableColumnKeys,
-      value: searchKey || 'date'
+      value: searchKey || 'date',
     },
     row
   );
@@ -169,9 +168,10 @@ function addNewRowIntoSearchParams(id, searchKey = null) {
     row
   );
 
+  labelCombo.addEventListener('change', handleSearchLabelComboChange);
   inputOperator.addEventListener('change', handleSearchParamOperatorChange);
   inputValue.addEventListener('input', handleSearchParamValueChange);
-  labelCombo.addEventListener('change', handleSearchLabelComboChange);
+
   removeSearchParamBtn.addEventListener(
     'click',
     handleRemoveSearchParamButtonClick

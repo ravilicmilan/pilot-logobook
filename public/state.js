@@ -1,36 +1,28 @@
-function setState (newObjVal) {
+function setState(newObjVal) {
   const arr = Object.entries(newObjVal);
 
-  arr.forEach(a => {
+  arr.forEach((a) => {
     const [key, value] = a;
     APP[key] = value;
   });
 }
 
-function deepCopy (obj) {
+function deepCopy(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function addNewSearchParam (searchParams) {
+function addNewSearchParam(searchParams) {
   // { searchKey: '', operator: '', searchValue: ''  }
   const oldSearchParams = [...APP.searchParams];
-  if (oldSearchParams.length > 0) {
-    const keyExists = oldSearchParams.find(o => o.searchKey === searchParams.searchKey);
-    if (!keyExists) {
-      oldSearchParams.push(searchParams);
-    }
-  } else {
-    oldSearchParams.push(searchParams);
-  }
-  
+  oldSearchParams.push(searchParams);
   setState({ searchParams: oldSearchParams });
 }
 
-function updateSearchParams (id, searchParams) {
+function updateSearchParams(id, searchParams) {
   const oldSearchParams = [...APP.searchParams];
-  oldSearchParams.forEach((param, idx) => {
-    if (idx === parseInt(id)) {
-      Object.keys(searchParams).forEach(key => {
+  oldSearchParams.forEach((param) => {
+    if (param.id === id) {
+      Object.keys(searchParams).forEach((key) => {
         param[key] = searchParams[key];
       });
     }
@@ -39,9 +31,8 @@ function updateSearchParams (id, searchParams) {
   setState({ searchParams: oldSearchParams });
 }
 
-function removeSearchParams (id) {
+function removeSearchParams(id) {
   const oldSearchParams = [...APP.searchParams];
-  // const newSearchParams = oldSearchParams.splice(id, 1);
-  const newSearchParams = oldSearchParams.filter((key, idx) => idx !== parseInt(id));
+  const newSearchParams = oldSearchParams.filter((search) => search.id !== id);
   setState({ searchParams: newSearchParams });
 }

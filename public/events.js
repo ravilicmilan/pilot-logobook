@@ -96,10 +96,10 @@ function getAllDataFromServer() {
 
 function handleFormSubmit(e) {
   e.preventDefault();
-  console.log(e);
+
   const formData = new FormData(UI.logbookForm);
   const data = Object.fromEntries(formData);
-  console.log(data);
+
   if (APP.editMode) {
     data.id = APP.currentId;
     handleUpdateData(data);
@@ -177,12 +177,16 @@ function handleToggleSearchButtonClick(e) {
 }
 
 function handleFindButtonClick() {
-  // APP.searchMode = true;
   setState({ searchMode: true });
   const obj = {};
+
   APP.searchParams.forEach((param) => {
-    const { searchKey, operator, searchValue } = param;
+    let { searchKey, operator, searchValue } = param;
     if (searchValue && searchValue !== null && searchValue !== '') {
+      if (Number(searchValue)) {
+        searchValue = Number(searchValue);
+      }
+
       if (operator === '=') {
         obj[searchKey] = searchValue; // WHERE column LIKE %somestring%
       } else if (operator === '<>') {
@@ -236,24 +240,26 @@ function handleDestiantionDepartureTimeBlur(e) {
 }
 
 function handleSearchLabelComboChange(e) {
-  // console.log('CHANGE EVENT COMBO LABEL"""', e);
+  // console.log('CHANGE EVENT COMBO LABEL"""', this.value);
   const id = this.id.split('search-label-combo-')[1];
   if (this.value === 'type_of_flight') {
     changeInputForComboBox(id);
   } else {
     changeComboBoxForInput(id);
   }
-
+  // console.log('STA SU PARAMS:::', id, this.value);
   updateSearchParams(id, { searchKey: this.value });
 }
 
 function handleAddNewSearchParamClick(e) {
-  // console.log('ADD NEW SEARCH PARAM:', APP.searchParams.length);
-  const id = APP.searchParams.length;
-  const obj = tableColumnKeys[id];
-  const [key] = Object.entries(obj)[0];
+  // console.log('ADD NEW SEARCH PARAM:', APP.searchParams);
+  const id = _dom.uid();
+  // const id = APP.searchParams.length;
+  // const obj = tableColumnKeys[id];
+  // const [key] = Object.entries(obj)[0];
+  const key = 'date';
   addNewRowIntoSearchParams(id, key);
-  addNewSearchParam({ searchKey: key, operator: '=', searchValue: null });
+  addNewSearchParam({ id, searchKey: key, operator: '=', searchValue: null });
 }
 
 function changeInputForComboBox(id) {
@@ -314,7 +320,7 @@ function handleSearchParamOperatorChange(e) {
 }
 
 function handleSearchParamValueChange(e) {
-  // console.log('VALUE CHANGE', e.target.value);
+  // console.log('VALUE CHANGE', this.value);
   let id;
   if (this.id.includes('search-combo')) {
     id = this.id.split('search-combo-')[1];
