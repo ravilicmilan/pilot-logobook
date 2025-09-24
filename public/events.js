@@ -35,7 +35,6 @@ function handleRecordEditClick(e) {
 
 function changePage(pageNum) {
   const data = getPageData(parseInt(pageNum), APP.logbookData);
-  // APP.dataForPage = data;
   setState({ dataForPage: data });
   populateTable(data);
   updatePaginationUI();
@@ -45,7 +44,7 @@ function changePage(pageNum) {
 
 function handleFirstPage(e) {
   if (APP.currentPage > 1) {
-    APP.currentPage = 1;
+    setState({ currentPage: 1 });
     changePage(1);
   }
 }
@@ -53,7 +52,6 @@ function handleFirstPage(e) {
 function handlePrevPage(e) {
   let newPage = APP.currentPage - 1;
   if (newPage > 1) {
-    // APP.currentPage = newPage;
     setState({ currentPage: newPage });
     changePage(newPage);
   }
@@ -62,7 +60,6 @@ function handlePrevPage(e) {
 function handleNextPage(e) {
   let newPage = APP.currentPage + 1;
   if (newPage <= APP.maxPage) {
-    // APP.currentPage = newPage;
     setState({ currentPage: newPage });
     changePage(newPage);
   }
@@ -70,7 +67,6 @@ function handleNextPage(e) {
 
 function handleLastPage(e) {
   if (APP.currentPage < APP.maxPage) {
-    // APP.currentPage = APP.maxPage;
     setState({ currentPage: APP.maxPage });
     changePage(APP.maxPage);
   }
@@ -112,7 +108,6 @@ function handleFormSubmit(e) {
 }
 
 function handleNewEntryButtonClick(e) {
-  // APP.editMode = false;
   setState({ editMode: false });
   tableColumnKeys.forEach((obj) => {
     const arr = Object.entries(obj);
@@ -122,6 +117,7 @@ function handleNewEntryButtonClick(e) {
   });
 
   _dom.id('input-page_num').value = APP.currentPage;
+  _dom.id('input-date').value = formatDate(new Date());
   toggleModal();
 }
 
@@ -219,7 +215,6 @@ function handleLoginButtonClick(e) {
 
   loginUser(data)
     .then((res) => {
-      // APP.loggedIn = true;
       setState({ loggedIn: true });
       getInitalData();
       hideLoginUI();
@@ -260,9 +255,6 @@ function handleSearchLabelComboChange(e) {
 function handleAddNewSearchParamClick(e) {
   // console.log('ADD NEW SEARCH PARAM:', APP.searchParams);
   const id = _dom.uid();
-  // const id = APP.searchParams.length;
-  // const obj = tableColumnKeys[id];
-  // const [key] = Object.entries(obj)[0];
   const key = 'date';
   addNewRowIntoSearchParams(id, key);
   addNewSearchParam({ id, searchKey: key, operator: '=', searchValue: null });

@@ -155,3 +155,8 @@ function stripSecondsFromTime(data) {
     return newObj;
   });
 }
+
+function formatDate(date) {
+  let formattedDate = new Date(date);
+  return formattedDate.toISOString().split('T')[0];
+}
