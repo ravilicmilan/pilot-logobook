@@ -84,7 +84,7 @@ function isDateInRange(date, min, max) {
   return compareDates(date, min, '>=') && compareDates(date, max, '<=');
 }
 
-function getToken () {
+function getToken() {
   return document.cookie.split('jwt=')[1];
 }
 
@@ -92,14 +92,66 @@ function checkAuth() {
   if (document.cookie.includes('jwt')) {
     const jwt = getToken();
     if (jwt && jwt.length > 0) {
-      // APP.loggedIn = true;
       setState({ loggedIn: true });
     } else {
-      // APP.loggedIn = false;
       setState({ loggedIn: false });
     }
   } else {
-    // APP.loggedIn = false;
     setState({ loggedIn: false });
   }
+}
+
+function getSearchFromUrl() {
+  const searchStr = decodeURI(document.location.search);
+
+  if (!searchStr.includes('search=')) {
+    return false;
+  }
+
+  try {
+    const searchArr = JSON.parse(searchStr.split('search=')[1]);
+    return searchArr;
+  } catch {
+    console.log('INVALID JSON', searchStr);
+    return false;
+  }
+}
+
+function setArrayToString(arr) {
+  const newArr = arr.map((a, idx) => {
+    return {
+      searchKey: a.searchKey,
+      operator: a.operator,
+      searchValue: a.searchValue,
+    };
+  });
+
+  return JSON.stringify(newArr);
+}
+
+function createSearchUrl(arr) {
+  const str = `?search=${setArrayToString(arr)}`;
+  document.location.search = str;
+  return str;
+}
+
+function removeSeconds(time) {
+  const arr = time.split(':');
+  return `${arr[0]}:${arr[1]}`;
+}
+
+function stripSecondsFromTime(data) {
+  return data.map((obj) => {
+    const newObj = {};
+
+    for (let key in obj) {
+      if (key.includes('_time') && obj[key] !== null) {
+        newObj[key] = removeSeconds(obj[key]);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+
+    return newObj;
+  });
 }

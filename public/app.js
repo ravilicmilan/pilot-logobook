@@ -28,10 +28,6 @@ function setInitialData(data) {
     currentPage: maxPage,
     dataForPage: getPageData(maxPage, data),
   });
-  //   APP.logbookData = data;
-  //   APP.maxPage = getMaxPageNum(APP.logbookData);
-  //   APP.currentPage = APP.maxPage;
-  //   APP.dataForPage = getPageData(APP.maxPage);
 }
 
 function createAutUI() {
@@ -48,17 +44,20 @@ function createMainUI() {
   buildModal();
   const { dataForSubtotal, dataForTotal } = getTotalsForPage();
   populateTableFooter(dataForSubtotal, dataForTotal);
+
+  const searchParams = getSearchFromUrl();
+  if (searchParams) {
+    executeSearch(searchParams);
+  }
 }
 
 function addNewRowToTable(data) {
   populateRow(data);
-  const oldLogbookData = APP.logbookData;
-  const oldDataForPage = APP.dataForPage;
+  const oldLogbookData = [...APP.logbookData];
+  const oldDataForPage = [...APP.dataForPage];
   oldLogbookData.push(data);
   oldDataForPage.push(data);
   setState({ logbookData: oldLogbookData, dataForPage: oldDataForPage });
-  // APP.logbookData.push(data);
-  // APP.dataForPage.push(data);
   localStorage.setItem('logbook', JSON.stringify(oldLogbookData));
 }
 
@@ -186,4 +185,15 @@ function getTotalsForPage() {
 function getTotalsForData(data) {
   const totals = calculateTotals(data);
   return { totals };
+}
+
+function resetSearch() {
+  setState({ searchParams: [] });
+  const { dataForSubtotal, dataForTotal } = getTotalsForPage();
+  _dom
+    .queryAll(UI.searchParamsWrapper, '.search-row-params')
+    .forEach((node) => node.remove());
+  const data = getPageData(APP.maxPage, APP.logbookData);
+  populateTable(data);
+  populateTableFooter(dataForSubtotal, dataForTotal);
 }

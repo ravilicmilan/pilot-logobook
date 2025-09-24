@@ -85,8 +85,9 @@ function getAllDataFromServer() {
 
   getAllRecords()
     .then((data) => {
-      localStorage.setItem('logbook', JSON.stringify(data));
-      setInitialData(data);
+      const preparedData = stripSecondsFromTime(data);
+      localStorage.setItem('logbook', JSON.stringify(preparedData));
+      setInitialData(preparedData);
       createMainUI();
     })
     .catch((err) => {
@@ -127,19 +128,19 @@ function handleNewEntryButtonClick(e) {
 function handleUpdateData(data) {
   updateRecord(data)
     .then((res) => {
-      const data = res[0];
-      updateRowInTable(data);
+      const updateData = stripSecondsFromTime(res);
+      const updateObj = updateData[0];
+      updateRowInTable(updateObj);
       const logbookData = JSON.parse(localStorage.getItem('logbook'));
       logbookData.forEach((obj) => {
-        if (obj.id === data.id) {
+        if (obj.id === updateObj.id) {
           Object.keys(obj).forEach((key) => {
-            obj[key] = data[key];
+            obj[key] = updateObj[key];
           });
         }
       });
       localStorage.setItem('logbook', JSON.stringify(logbookData));
-      // APP.logbookData = logbookData;
-      // APP.dataForPage = getPageData(APP.currentPage);
+
       setState({
         logbookData,
         dataForPage: getPageData(APP.currentPage, logbookData),
@@ -155,6 +156,10 @@ function handleUpdateData(data) {
 }
 
 function handleRefreshButtonClick(e) {
+  let url = new URL(window.location.href);
+  let params = url.searchParams;
+  params.delete('search');
+  window.history.replaceState(null, '', url.href);
   getAllDataFromServer();
 }
 
@@ -167,20 +172,21 @@ function handleToggleSearchButtonClick(e) {
       togglePagination();
     }
 
-    // APP.searchMode = false;
     setState({ searchMode: false });
     UI.toggleSearchBtn.innerHTML = 'SHOW SEARCH';
-    const { dataForSubtotal, dataForTotal } = getTotalsForPage();
-
-    populateTableFooter(dataForSubtotal, dataForTotal);
+    resetSearch();
   }
 }
 
 function handleFindButtonClick() {
+  executeSearch(APP.searchParams);
+}
+
+function executeSearch(searchParams) {
   setState({ searchMode: true });
   const obj = {};
 
-  APP.searchParams.forEach((param) => {
+  searchParams.forEach((param) => {
     let { searchKey, operator, searchValue } = param;
     if (searchValue && searchValue !== null && searchValue !== '') {
       if (Number(searchValue)) {
