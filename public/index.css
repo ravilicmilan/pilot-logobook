@@ -16,7 +16,9 @@
   --subtotal-color: #f8b632;
   --total-color: #db970e;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 body {
@@ -57,8 +59,12 @@ body {
   animation: spin 1s linear infinite; /* Apply the spin animation */
 }
 @keyframes spin {
-  0% { transform: rotate(0deg); } /* Start at 0 degrees */
-  100% { transform: rotate(360deg); } /* End at 360 degrees */
+  0% {
+    transform: rotate(0deg);
+  } /* Start at 0 degrees */
+  100% {
+    transform: rotate(360deg);
+  } /* End at 360 degrees */
 }
 #loader-text {
   font-size: 20px;
@@ -148,16 +154,18 @@ body {
   border-collapse: collapse;
   border-spacing: 0;
 }
-#logbook-table th, #logbook-table td {
+#logbook-table th,
+#logbook-table td {
   min-width: 60px;
   min-height: 30px;
   font-size: 12px;
 }
-#logbook-table tr, #logbook-table td {
+#logbook-table tr,
+#logbook-table td {
   border: 1px inset var(--primary-text-color);
   border-collapse: collapse;
   border-spacing: 0;
-} 
+}
 #logbook-table th {
   background-color: var(--table-header-background);
   color: var(--secondary-text-color);
@@ -175,7 +183,9 @@ body {
 #logbook-table tr:nth-child(even) {
   background-color: var(--even-td-color);
 }
-.td-aircraft_model, .td-pic_name, .td-remarks {
+.td-aircraft_model,
+.td-pic_name,
+.td-remarks {
   min-width: 120px !important;
 }
 .td-route {
@@ -190,7 +200,8 @@ tfoot #row-subtotal td {
 tfoot #row-total td {
   background-color: var(--total-color);
 }
-tfoot #row-subtotal td, tfoot #row-total td {
+tfoot #row-subtotal td,
+tfoot #row-total td {
   font-weight: bold;
   font-size: 12px;
 }
@@ -215,7 +226,7 @@ tfoot #row-subtotal td, tfoot #row-total td {
   background-color: var(--table-row-hover) !important;
 }
 .table-row:hover td {
-  background-color: transparent !important; 
+  background-color: transparent !important;
 }
 #modal {
   display: none;
@@ -236,7 +247,7 @@ tfoot #row-subtotal td, tfoot #row-total td {
 #modal-inner {
   margin: 50px auto;
   height: auto;
-	max-height: 100%;
+  max-height: 100%;
   overflow-y: auto;
 }
 .show {
@@ -259,7 +270,7 @@ tfoot #row-subtotal td, tfoot #row-total td {
   width: 100%;
   z-index: 5;
   background-color: var(--primary-background);
-  overflow-y: auto; 
+  overflow-y: auto;
   height: auto;
   padding: 10px;
 }
@@ -302,7 +313,8 @@ tfoot #row-subtotal td, tfoot #row-total td {
   margin-bottom: 10px;
   border-bottom: 1px solid var(--main-button-color);
 }
-.form-row select, .form-row input {
+.form-row select,
+.form-row input {
   width: 50%;
 }
 .form-row label {
@@ -342,4 +354,20 @@ tfoot #row-subtotal td, tfoot #row-total td {
 }
 #login-btn {
   margin-top: 30px;
+}
+
+/* up to 420px */
+@media only screen and (max-width: 420px) {
+  .search-row-params {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+  .search-label-combo,
+  .search-operator,
+  .search-input {
+    font-size: 18px;
+  }
+  .search-input {
+    width: 200px;
+  }
 }
