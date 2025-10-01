@@ -345,7 +345,7 @@ function handleExecutePrint() {
     }
   });
 
-  printContent(elements);
+  printContent(elements, addMorePrintInfo(APP.searchParams));
   closeModal();
 }
 

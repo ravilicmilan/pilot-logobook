@@ -1,4 +1,9 @@
-function printContent(elements) {
+function printContent(elements, additionalInfo) {
+  const title = _dom.create({
+    name: 'h3',
+    id: 'title',
+    innerHTML: additionalInfo,
+  });
   let divToPrint = document.getElementById('logbook-table');
   let htmlToPrint = `
     <style type="text/css">
@@ -55,7 +60,7 @@ function printContent(elements) {
         text-align: center;
       }
       table td {
-        padding: 10px 0;
+        padding: 5px 0;
       }
       .td-date {
         min-width: 65px !important;
@@ -67,7 +72,8 @@ function printContent(elements) {
       .td-dual_time,
       .td-total_flight_time,
       .td-single_engine_time,
-      .td-multi_engine_time {
+      .td-multi_engine_time,
+      .td-aircraft_model {
         min-width: 40px !important;
       }
       .td-remarks {
@@ -75,6 +81,12 @@ function printContent(elements) {
       }
       .td-route {
         min-width: 100px !important;
+      }
+      #title {
+        text-align: center;
+        font-size: 12px;
+        content: #333;
+        display: block;
       }
     </style>
   `;
@@ -88,6 +100,7 @@ function printContent(elements) {
   additionalStyles += `</style>`;
 
   htmlToPrint += additionalStyles;
+  htmlToPrint += title.outerHTML;
   htmlToPrint += divToPrint.outerHTML;
   const newWin = window.open('');
   newWin.document.body.innerHTML = htmlToPrint;

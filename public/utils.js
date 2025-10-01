@@ -167,3 +167,45 @@ function getTableColumnsAsChecks() {
     return { key, text: value, checked: true };
   });
 }
+
+function addMorePrintInfo(searchParams) {
+  let str = '';
+
+  if (!searchParams || searchParams.length === 0) {
+    str += 'Page: ' + APP.currentPage;
+  } else {
+    searchParams.forEach((param, idx) => {
+      const obj = tableColumnKeys.find((col) =>
+        col.hasOwnProperty(param.searchKey)
+      );
+      const label = obj[param.searchKey];
+      const conjunction = convertOperatorAndValues(
+        param.operator,
+        param.searchValue
+      );
+
+      str += `${label}${conjunction}`;
+
+      if (idx < searchParams.length - 1) {
+        str += ' | ';
+      }
+    });
+  }
+
+  return `Query:::> ${str}`;
+}
+
+function convertOperatorAndValues(operator, value) {
+  let str = '';
+
+  if (operator === '=') {
+    str = `: ${value}`;
+  } else if (operator === '<>') {
+    const [val1, val2] = value.split(/[,;]/);
+    str = `: between ${val1} and ${val2}`;
+  } else {
+    str = `${operator} ${value}`;
+  }
+
+  return str;
+}
