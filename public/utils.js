@@ -203,6 +203,8 @@ function convertOperatorAndValues(operator, value) {
   } else if (operator === '<>') {
     const [val1, val2] = value.split(/[,;]/);
     str = `: between ${val1} and ${val2}`;
+  } else if (operator === '!=') {
+    str = ` is not ${value}`;
   } else {
     str = `${operator} ${value}`;
   }

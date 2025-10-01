@@ -95,4 +95,4 @@ const typeOfFlightEnum = [
   'Cross Country IFR',
 ];
 
-const searchOperators = ['=', '<', '>', '<=', '>=', '<>'];
+const searchOperators = ['=', '<', '>', '<=', '>=', '!=', '<>'];
