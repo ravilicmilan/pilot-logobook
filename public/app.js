@@ -42,6 +42,8 @@ function createMainUI() {
   buildPagination();
   updatePaginationUI();
   buildModal();
+  createLogbookForm();
+  createPrintModal();
   const { dataForSubtotal, dataForTotal } = getTotalsForPage();
   populateTableFooter(dataForSubtotal, dataForTotal);
 

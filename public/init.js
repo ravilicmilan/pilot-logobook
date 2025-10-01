@@ -60,10 +60,20 @@ function createActionButtons() {
     },
     UI.buttonsWrapper
   );
+  const printBtn = _dom.create(
+    {
+      name: 'div',
+      id: 'print-btn',
+      className: ['flex-center', 'flex-column', 'btn', 'primary-btn'],
+      innerHTML: 'PRINT',
+    },
+    UI.buttonsWrapper
+  );
 
   newEntryBtn.addEventListener('click', handleNewEntryButtonClick);
   refreshBtn.addEventListener('click', handleRefreshButtonClick);
   UI.toggleSearchBtn.addEventListener('click', handleToggleSearchButtonClick);
+  printBtn.addEventListener('click', handlePrintModal);
 }
 
 function createSearchParams() {
@@ -191,15 +201,19 @@ function createTable() {
   for (let i = 0; i < tableColumnKeys.length; i++) {
     const column = tableColumnKeys[i];
     const arr = Object.entries(column);
+    const [key, value] = arr[0];
     const th = _dom.create(
-      { name: 'th', innerHTML: arr[0][1] },
+      { name: 'th', innerHTML: value, className: [`th-${key}`] },
       UI.tableHeader
     );
   }
 
   UI.tableBody = _dom.create({ name: 'tbody' }, UI.table);
 
-  UI.tableFooter = _dom.create({ name: 'tfoot' }, UI.table);
+  UI.tableFooter = _dom.create(
+    { name: 'tfoot', className: ['footer-on-last-page'] },
+    UI.table
+  );
 
   UI.tableFooterSubtotal = _dom.create(
     { name: 'tr', id: `row-subtotal`, className: ['table-row'] },
@@ -431,18 +445,17 @@ function buildModal() {
     },
     UI.modal
   );
-  const modalInner = _dom.create(
-    { name: 'div', id: 'modal-inner' },
-    modalOuter
-  );
+  UI.modalInner = _dom.create({ name: 'div', id: 'modal-inner' }, modalOuter);
+}
 
+function createLogbookForm() {
   UI.logbookForm = _dom.create(
     {
       name: 'form',
       id: 'logbook-form',
       className: ['flex-center', 'flex-column'],
     },
-    modalInner
+    UI.modalInner
   );
 
   const logBookHeader = _dom.create(
@@ -589,4 +602,94 @@ function createLoginForm() {
     UI.loginForm
   );
   loginBtn.addEventListener('click', handleLoginButtonClick);
+}
+
+function createPrintModal() {
+  UI.printModal = _dom.create(
+    {
+      name: 'div',
+      id: 'print-modal',
+      className: ['flex-column', 'flex-center'],
+    },
+    UI.main
+  );
+  const header = _dom.create(
+    { name: 'h2', innerHTML: 'PRINT DIALOG', id: 'print-header' },
+    UI.printModal
+  );
+  const subheader = _dom.create(
+    {
+      name: 'h4',
+      innerHTML: 'Choose fields to be printed',
+      id: 'print-subheader',
+    },
+    UI.printModal
+  );
+
+  UI.printForm = _dom.create({ name: 'form', id: 'print-form' }, UI.printModal);
+
+  const checkboxWrapper = _dom.create(
+    {
+      name: 'div',
+      id: 'print-checkbox-wrapper',
+      className: ['flex-column', 'flex-center'],
+    },
+    UI.printForm
+  );
+
+  const checks = getTableColumnsAsChecks();
+
+  for (let i = 0; i < checks.length; i++) {
+    const check = checks[i];
+    const label = _dom.create(
+      {
+        name: 'label',
+        innerHTML: check.text,
+        labelFor: `check_${check.key}`,
+        className: ['flex-row', 'checkbox-label'],
+      },
+      checkboxWrapper
+    );
+
+    const checkbox = _dom.create({
+      name: `check_${check.key}`,
+      className: ['flex-row', 'flex-start'],
+      type: 'checkbox',
+      input: true,
+      id: `check_${check.key}`,
+      checked: true,
+    });
+    label.prepend(checkbox);
+  }
+
+  const buttonsWrapper = _dom.create(
+    {
+      name: 'div',
+      id: 'print-buttons-wrapper',
+      className: ['flex-row', 'flex-center', 'flex-gap-20'],
+    },
+    UI.printModal
+  );
+  const printExecuteBtn = _dom.create(
+    {
+      name: 'div',
+      id: 'print-execute-btn',
+      className: ['flex-center', 'flex-column', 'btn', 'primary-btn'],
+      innerHTML: 'PRINT',
+    },
+    buttonsWrapper
+  );
+
+  const closeBtn = _dom.create(
+    {
+      name: 'div',
+      id: 'close-print-modal-btn',
+      className: ['flex-center', 'flex-column', 'btn', 'close-btn'],
+      innerHTML: 'CLOSE',
+    },
+    buttonsWrapper
+  );
+
+  printExecuteBtn.addEventListener('click', handleExecutePrint);
+  closeBtn.addEventListener('click', handleClosePrintModal);
 }

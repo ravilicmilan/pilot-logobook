@@ -243,6 +243,7 @@ tfoot #row-total td {
   width: 100%;
   height: 100%;
   position: relative;
+  z-index: 3;
 }
 #modal-inner {
   margin: 50px auto;
@@ -266,6 +267,7 @@ tfoot #row-total td {
   background-color: rgba(0, 0, 0, 0.6);
 }
 #logbook-form {
+  display: none;
   position: relative;
   width: 100%;
   z-index: 5;
@@ -355,7 +357,41 @@ tfoot #row-total td {
 #login-btn {
   margin-top: 30px;
 }
-
+#print-modal {
+  display: none;
+  z-index: 6;
+  background-color: var(--primary-background);
+  min-width: 90vw;
+  justify-content: flex-start;
+}
+#print-header {
+  color: var(--primary-text-color);
+  margin: 20px auto;
+}
+#print-subheader {
+  color: var(--primary-text-color);
+  margin-bottom: 20px;
+}
+#print-checkbox-wrapper {
+  justify-content: space-around;
+  flex-wrap: wrap;
+  height: 500px;
+  width: 100%;
+}
+#print-buttons-wrapper {
+  margin: 20px auto;
+}
+#print-form {
+  width: 100%;
+}
+.checkbox-label {
+  color: var(--primary-text-color);
+  padding: 10px;
+  justify-content: flex-start;
+  gap: 20px;
+  cursor: pointer;
+  width: 25%;
+}
 /* up to 420px */
 @media only screen and (max-width: 420px) {
   .search-row-params {

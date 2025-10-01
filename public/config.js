@@ -35,13 +35,16 @@ const UI = {
   lastPageBtn: null,
   pageNumDiv: '0 / 0',
   modal: null,
+  modalInner: null,
   logbookForm: null,
   loginForm: null,
+  printModal: null,
+  printForm: null,
 };
 
 const tableColumnKeys = [
   { date: 'Date' },
-  { departure_airport: 'Departure Airport' }, 
+  { departure_airport: 'Departure Airport' },
   { departure_time: 'Departure Time' },
   { destination_airport: 'Destination Airport' },
   { destination_time: 'Destination Time' },
@@ -70,14 +73,14 @@ const tableColumnKeys = [
 ];
 
 const typeOfFlightEnum = [
-  'PPL Training', 
-  'PPL Checkride', 
-  'PPL Refresher', 
-  'IFR Training', 
-  'IFR Refresher', 
-  'IFR Checkride', 
-  'CPL Training', 
-  'CPL Refresher', 
+  'PPL Training',
+  'PPL Checkride',
+  'PPL Refresher',
+  'IFR Training',
+  'IFR Refresher',
+  'IFR Checkride',
+  'CPL Training',
+  'CPL Refresher',
   'CPL Checkride',
   'UPRT Training',
   'MEP Training',
@@ -89,9 +92,7 @@ const typeOfFlightEnum = [
   'Night VFR',
   'Night IFR',
   'Cross Country VFR',
-  'Cross Country IFR'
+  'Cross Country IFR',
 ];
 
-const searchOperators = [
-  '=', '<', '>', '<=', '>=', '<>'
-];
+const searchOperators = ['=', '<', '>', '<=', '>=', '<>'];

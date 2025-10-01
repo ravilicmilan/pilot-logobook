@@ -1,6 +1,6 @@
 function handleCloseForm(e) {
   // console.log('CLOSE FORM');
-  toggleModal();
+  closeModal();
 }
 
 function toggleLoader() {
@@ -19,6 +19,7 @@ function handlePostNewEntry(data) {
 }
 
 function handleRecordEditClick(e) {
+  loadModal('logbook');
   const id = parseInt(this.id.split('edit-btn-')[1]);
   setState({ editMode: true, currentId: id });
   const data = findRecordById(id);
@@ -29,8 +30,6 @@ function handleRecordEditClick(e) {
       inputField.value = data[key];
     }
   });
-
-  toggleModal();
 }
 
 function changePage(pageNum) {
@@ -104,10 +103,11 @@ function handleFormSubmit(e) {
     handlePostNewEntry(data);
   }
 
-  toggleModal();
+  closeModal();
 }
 
 function handleNewEntryButtonClick(e) {
+  loadModal('logbook');
   setState({ editMode: false });
   tableColumnKeys.forEach((obj) => {
     const arr = Object.entries(obj);
@@ -118,7 +118,6 @@ function handleNewEntryButtonClick(e) {
 
   _dom.id('input-page_num').value = APP.currentPage;
   _dom.id('input-date').value = formatDate(new Date());
-  toggleModal();
 }
 
 function handleUpdateData(data) {
@@ -327,4 +326,46 @@ function handleSearchParamValueChange(e) {
   }
 
   updateSearchParams(id, { searchValue: this.value });
+}
+
+function handlePrintModal(e) {
+  loadModal('print');
+}
+
+function handleExecutePrint() {
+  const formData = new FormData(UI.printForm);
+  const data = Object.fromEntries(formData);
+
+  const elements = [];
+  tableColumnKeys.forEach((column) => {
+    const [key, value] = Object.entries(column)[0];
+    const id = `check_${key}`;
+    if (!data.hasOwnProperty(id)) {
+      elements.push(key);
+    }
+  });
+
+  printContent(elements);
+  closeModal();
+}
+
+function handleClosePrintModal() {
+  closeModal();
+}
+
+function loadModal(type) {
+  if (type === 'logbook') {
+    UI.logbookForm.classList.add('show');
+    UI.modalInner.appendChild(UI.logbookForm);
+  } else if (type === 'print') {
+    UI.printModal.classList.add('show');
+    UI.modalInner.appendChild(UI.printModal);
+  }
+
+  toggleModal();
+}
+
+function closeModal() {
+  UI.modal.classList.remove('show');
+  UI.modalInner.innerHTML = '';
 }

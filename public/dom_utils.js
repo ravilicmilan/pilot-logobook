@@ -4,8 +4,16 @@ const _dom = {
   },
 
   create: function (obj, parentEl = null) {
-    const attributes = ['className', 'data', 'styles', 'type', 'innerHTML', 'options', 'label'];
-    let el; 
+    const attributes = [
+      'className',
+      'data',
+      'styles',
+      'type',
+      'innerHTML',
+      'options',
+      'label',
+    ];
+    let el;
     if (obj.input) {
       el = document.createElement('input');
     } else if (obj.type === 'combobox') {
@@ -15,8 +23,8 @@ const _dom = {
     } else {
       el = document.createElement(obj.name || 'div');
     }
-    
-    Object.keys(obj).forEach(key => {
+
+    Object.keys(obj).forEach((key) => {
       if (attributes.includes(key)) {
         if (key === 'className') {
           if (Array.isArray(obj.className)) {
@@ -30,40 +38,61 @@ const _dom = {
           el.innerHTML = obj.innerHTML;
         } else if (key === 'data') {
           if (obj.data && Object.keys(obj.data).length > 0) {
-            Object.keys(obj.data).forEach(dataKey => {
+            Object.keys(obj.data).forEach((dataKey) => {
               _dom.attr(el, `data-${dataKey}`, obj.data[dataKey]);
             });
           }
         } else if (key === 'styles') {
           _dom.applyStyles(el, obj.styles);
         } else if (key === 'type') {
-          if (obj.type === 'text' || obj.type === 'password') {
+          if (
+            obj.type === 'text' ||
+            obj.type === 'password' ||
+            obj.type === 'checkbox'
+          ) {
             el.type = obj.type;
           }
 
           if (obj.type === 'combobox' && obj.options) {
             if (obj.makeFirstOptionNull) {
-              const option = _dom.create({ name: 'option', selected: true, disabled: true, innerHTML: 'Select Option' }, el);
+              const option = _dom.create(
+                {
+                  name: 'option',
+                  selected: true,
+                  disabled: true,
+                  innerHTML: 'Select Option',
+                },
+                el
+              );
             }
 
-            obj.options.forEach(o => {
+            obj.options.forEach((o) => {
               if (typeof o === 'object') {
                 const [key, value] = Object.entries(o)[0];
-                const option = _dom.create({ name: 'option', value: key, innerHTML: value }, el);
+                const option = _dom.create(
+                  { name: 'option', value: key, innerHTML: value },
+                  el
+                );
               } else {
-                const option = _dom.create({ name: 'option', value: o, innerHTML: o }, el);
+                const option = _dom.create(
+                  { name: 'option', value: o, innerHTML: o },
+                  el
+                );
               }
             });
-
-            
 
             if (obj.value) {
               el.value = obj.value;
             }
           }
 
-          if ((obj.type === 'radio-group' || obj.type === 'incrementor' || obj.type === 'border-group') && obj.options) {
-            obj.options.forEach(o => {
+          if (
+            (obj.type === 'radio-group' ||
+              obj.type === 'incrementor' ||
+              obj.type === 'border-group') &&
+            obj.options
+          ) {
+            obj.options.forEach((o) => {
               _dom.create(o, el);
             });
           }
@@ -78,8 +107,7 @@ const _dom = {
           if (obj.type === 'file' && obj.id.indexOf('image') !== -1) {
             _dom.attr(el, 'accept', 'image/*');
           }
-
-         }
+        }
       } else {
         if (!obj.id) {
           const id = _dom.uid();
@@ -116,7 +144,9 @@ const _dom = {
   },
 
   toggleClass: function (el, className) {
-    if (!el) { return false; }
+    if (!el) {
+      return false;
+    }
 
     const classArr = Array.from(el.classList);
 
@@ -156,11 +186,11 @@ const _dom = {
   },
 
   isParagraph: function (el) {
-    return (el.tagName && el.tagName.toLowerCase() === 'p');
+    return el.tagName && el.tagName.toLowerCase() === 'p';
   },
 
   isSpan: function (el) {
-    return (el.tagName && el.tagName.toLowerCase() === 'span');
+    return el.tagName && el.tagName.toLowerCase() === 'span';
   },
 
   isTextNode: function (el) {
@@ -168,7 +198,7 @@ const _dom = {
   },
 
   isAnchor: function (el) {
-    return (el.tagName && el.tagName.toLowerCase() === 'a');
+    return el.tagName && el.tagName.toLowerCase() === 'a';
   },
 
   isInlineElement: function (el) {
@@ -186,9 +216,9 @@ const _dom = {
     if (styles.key && styles.value) {
       str += `${styles.key}: ${styles.value};`;
     } else {
-      Object.keys(styles).forEach(k => {
+      Object.keys(styles).forEach((k) => {
         str += `${k}: ${styles[k]};`;
-      });    
+      });
     }
 
     return str;
@@ -200,7 +230,7 @@ const _dom = {
     const obj = {};
     const arr = str.split(';');
 
-    arr.forEach(s => {
+    arr.forEach((s) => {
       if (s.trim() !== '') {
         const o = s.split(':');
         const key = o[0].trim();
@@ -215,7 +245,9 @@ const _dom = {
   createFragmentFromHtml: function (html) {
     const el = _dom.create({ name: 'div' });
     el.innerHTML = html;
-    let frag = document.createDocumentFragment(), node, lastNode;
+    let frag = document.createDocumentFragment(),
+      node,
+      lastNode;
     while ((node = el.firstChild)) {
       lastNode = frag.appendChild(node);
     }
@@ -234,7 +266,7 @@ const _dom = {
 
   setValue: function (value) {
     const numVal = parseFloat(value);
-    
+
     if (isNaN(numVal)) {
       return false;
     }
@@ -251,5 +283,4 @@ const _dom = {
 
     return val;
   },
-
 };

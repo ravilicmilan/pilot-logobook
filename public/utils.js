@@ -160,3 +160,10 @@ function formatDate(date) {
   let formattedDate = new Date(date);
   return formattedDate.toISOString().split('T')[0];
 }
+
+function getTableColumnsAsChecks() {
+  return tableColumnKeys.map((col) => {
+    const [key, value] = Object.entries(col)[0];
+    return { key, text: value, checked: true };
+  });
+}
