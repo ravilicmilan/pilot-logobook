@@ -369,3 +369,7 @@ function closeModal() {
   UI.modal.classList.remove('show');
   UI.modalInner.innerHTML = '';
 }
+
+function handleLogout() {
+  logoutUser();
+}

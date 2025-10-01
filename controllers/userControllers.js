@@ -84,16 +84,19 @@ export const logoutUser = async (req, res) => {
 
   // Is token in db?
   const foundUser = await findUserByToken(token);
+  // console.log('FOUND USER!!!', foundUser);
   if (!foundUser || (foundUser && foundUser.length === 0)) {
     res.clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: true });
     return res.sendStatus(204);
   }
 
-  const currentUser = { ...foundUser, token: null };
+  const currentUser = { ...foundUser[0], token: null };
   await updateUser(currentUser);
 
-  res.clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: true });
-  res.sendStatus(204);
+  return res
+    .clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: true })
+    .json({ success: true })
+    .status(204);
 };
 
 // async function signup () { for frontend only

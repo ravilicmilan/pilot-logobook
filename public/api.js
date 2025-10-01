@@ -58,12 +58,23 @@ async function updateRecord(data) {
   }
 }
 
-async function loginUser (data) {
+async function loginUser(data) {
   try {
     const url = '/users/login';
     const res = await api(url, 'POST', data);
 
     return res;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function logoutUser() {
+  try {
+    const url = '/users/logout';
+    const res = await api(url, 'POST');
+
+    document.location.href = '/';
   } catch (error) {
     return error;
   }

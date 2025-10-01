@@ -70,10 +70,21 @@ function createActionButtons() {
     UI.buttonsWrapper
   );
 
+  const logoutBtn = _dom.create(
+    {
+      name: 'div',
+      id: 'logout-btn',
+      className: ['flex-center', 'flex-column', 'btn', 'close-btn'],
+      innerHTML: 'LOGOOUT',
+    },
+    UI.buttonsWrapper
+  );
+
   newEntryBtn.addEventListener('click', handleNewEntryButtonClick);
   refreshBtn.addEventListener('click', handleRefreshButtonClick);
   UI.toggleSearchBtn.addEventListener('click', handleToggleSearchButtonClick);
   printBtn.addEventListener('click', handlePrintModal);
+  logoutBtn.addEventListener('click', handleLogout);
 }
 
 function createSearchParams() {
