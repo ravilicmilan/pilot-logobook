@@ -302,6 +302,8 @@ function populateRow(obj) {
       tableRow
     );
   }
+
+  tableRow.addEventListener('click', handleRowSelected);
 }
 
 function populateTableFooter(subTotalData, totalData) {

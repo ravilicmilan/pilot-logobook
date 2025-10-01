@@ -373,3 +373,9 @@ function closeModal() {
 function handleLogout() {
   logoutUser();
 }
+
+function handleRowSelected(e) {
+  if (!e.target.id.includes('edit-btn-')) {
+    _dom.toggleClass(e.target.parentElement, 'selected');
+  }
+}

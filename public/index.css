@@ -9,6 +9,7 @@
   --odd-td-color: #f8f0cd;
   --even-td-color: #fff;
   --table-row-hover: #0ae4ec;
+  --table-row-selected: #0ae493;
   --close-action-color: #ad0c1c;
   --closse-action-color-hover: #e9273a;
   --success-action-color: #0b4628;
@@ -227,6 +228,9 @@ tfoot #row-total td {
 }
 .table-row:hover td {
   background-color: transparent !important;
+}
+.selected {
+  background-color: var(--table-row-selected) !important;
 }
 #modal {
   display: none;
