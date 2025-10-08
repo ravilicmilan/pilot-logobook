@@ -23,12 +23,6 @@ function printContent(elements, additionalInfo) {
           padding-top: 5px;
         }
       }
-      .footer-on-last-page {
-        position: running(footer); /* Assign the footer to a named running element */
-      }
-      @bottom-center {
-        content: element(footer); /* Display the named running element at the bottom center */
-      }
       #header,
       #button-wrapper,
       #pagination-wrapper,
