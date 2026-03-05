@@ -26,7 +26,7 @@ export const signupUser = async (req, res) => {
     //encrypt the password
     const hashedPwd = await bcrypt.hash(password, 10);
     //store the new user
-    const newUser = { email: email, password: hashedPwd };
+    const newUser = { email, password: hashedPwd };
     const response = await createNewUser(newUser);
     res.status(201).json(response);
   } catch (err) {
@@ -43,6 +43,7 @@ export const loginUser = async (req, res) => {
   }
 
   const match = await bcrypt.compare(password, foundUser[0].password);
+  console.log('MATCH', match);
 
   if (match) {
     const accessToken = jwt.sign(
@@ -56,13 +57,10 @@ export const loginUser = async (req, res) => {
       { expiresIn: '30d' }
     );
 
-    const updateData = await updateUser({
-      ...foundUser[0],
-      token: refreshToken,
-    });
+    const updateData = await updateUser(foundUser[0].id, refreshToken);
 
     if (!updateData || (updateData && updateData.length === 0)) {
-      res.status(500).json({ error: 'Update error' });
+      return res.status(500).json({ error: 'Update error' });
     }
 
     res.cookie('jwt', refreshToken, {
@@ -71,7 +69,7 @@ export const loginUser = async (req, res) => {
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({ accessToken });
+    return res.status(200).json({ accessToken });
   } else {
     res.status(500).json({ error: 'Username or password incorrect' });
   }
@@ -91,7 +89,7 @@ export const logoutUser = async (req, res) => {
   }
 
   const currentUser = { ...foundUser[0], token: null };
-  await updateUser(currentUser);
+  await updateUser(foundUser[0].id, null);
 
   return res
     .clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: true })

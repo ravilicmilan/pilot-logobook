@@ -1,41 +1,43 @@
-import supabase from '../config/supabaseClient.js';
+import { sql } from '../config.js';
 
 export const createNewUser = async (user) => {
-   const { data, error } = await supabase
-    .from("users")
-    .insert([user])
-    .select();
-  if (error) throw new Error(error.message);
-  return data;
+  try {
+    const result = await sql`
+      INSERT INTO users (email, password)
+      VALUES (${user.email}, ${user.password})
+      RETURNING *
+    `;
+    console.log('CREATE USER::', result);
+    return result;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };
 
 export const findUser = async (email) => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('email', email);
-
-  if (error) throw new Error(error.message);
-  return data;
+  try {
+    const result = await sql`SELECT * FROM users WHERE email = ${email}`;
+    return result;
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };
 
 export const findUserByToken = async (token) => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('token', token);
+  try {
+    const result = await sql`SELECT * FROM users WHERE token = ${token}`;
+    return result;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
 
-  if (error) throw new Error(error.message);
-  return data;
-}
-
-export const updateUser = async (userData) => {
-  const { data, error } = await supabase
-    .from("users")
-    .update(userData)
-    .eq("id", userData.id)
-    .select();
-
-  if (error) throw new Error(error.message);
-  return data;
-}
+export const updateUser = async (id, token) => {
+  try {
+    const result =
+      await sql`UPDATE users SET token = ${token} WHERE id = ${id} RETURNING id`;
+    return result;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
