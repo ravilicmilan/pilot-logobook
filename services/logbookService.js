@@ -27,7 +27,7 @@ export const createNewRow = async (logdata) => {
 
 export const getAllLogs = async () => {
   try {
-    const result = await sql`SELECT * FROM logbook ORDER BY date ASC`;
+    const result = await sql`SELECT * FROM logbook ORDER BY date, departure_time ASC`;
     return result;
   } catch (err) {
     throw new Error(err.message);
